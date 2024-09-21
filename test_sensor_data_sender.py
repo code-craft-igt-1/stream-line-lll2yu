@@ -26,5 +26,5 @@ class TestSender(unittest.TestCase):
         self.assertEqual(actual_output, expected_output)
 
 
-if __name__ == '__main__': # pragma: no cover
+if __name__ == '__main__':  # pragma: no cover
     unittest.main()

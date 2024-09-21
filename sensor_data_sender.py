@@ -11,5 +11,5 @@ def send_sensor_data(file_path):
         print(f"{temperature},{pulse_rate},{spo2}")
 
 
-if __name__ == "__main__": # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     send_sensor_data('sensor_data.csv')

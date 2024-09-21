@@ -35,7 +35,11 @@ jobs:
       run: lizard --CCN 3 .
 
     - name: Check Lint with flake8
-      run: flake8 . --count --exit-zero --max-line-length=80 --max-complexity=3  --statistics
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings.
+        flake8 . --count --exit-zero --max-line-length=80 --statistics
 
     - name: Run Tests with Coverage
       run: |
