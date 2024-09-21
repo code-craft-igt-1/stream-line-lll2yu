@@ -22,7 +22,7 @@ jobs:
         pip install cpplint lizard
 
     - name: No Duplication beyond 3 lines
-      run:  jscpd *.cpp --gitignore --min-lines 3 --min-tokens 25 --threshold 0
+      run:  jscpd src/*.cpp test/*.cpp --gitignore --min-lines 3 --min-tokens 25 --threshold 0
 
     - name: Check Cyclomatic Complexity
       run: lizard --CCN 3 src/* test/*
