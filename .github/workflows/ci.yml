@@ -1,0 +1,50 @@
+name: CI Pipeline for Python
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install lizard coverage flake8
+        sudo npm install -g jscpd
+
+    - name: No Duplication beyond 3 lines
+      run:  jscpd *.py --gitignore --min-lines 3 --min-tokens 25 --threshold 0
+
+    - name: Check Cyclomatic Complexity
+      run: lizard --CCN 3 .
+
+    - name: Check Lint with flake8
+      run: flake8 . --count --exit-zero --max-line-length=80 --max-complexity=3  --statistics
+
+    - name: Run Tests with Coverage
+      run: |
+        coverage run --branch test_sensor_data_sender.py
+        coverage html
+        coverage report
+
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage
+        path: ./htmlcov
+        retention-days: 21
