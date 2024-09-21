@@ -4,14 +4,21 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**/*.py'
   pull_request:
     branches:
       - master
+    paths:
+      - '**/*.py'
   workflow_dispatch:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
 
     steps:
     - name: Checkout code

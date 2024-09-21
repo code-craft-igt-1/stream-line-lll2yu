@@ -1,3 +1,25 @@
+Implemented in cpp and python.
+
+Project directory structure is as such:
+```
+project-root/
+├── python/
+│   ├── .py files
+│   └── docs
+│       └── .chm file with documentation for py
+└── cpp/
+    ├──include
+    │  └── .h files
+    ├──src
+    │  └── .cpp files
+    ├──test
+    │  └── test .cpp files
+    ├──docs
+    │  └── .chm file with documentation for cpp
+    └── CMakeLists.txt
+```
+Workflows are defined for each file type(cpp/py).
+
 # Streaming Data
 
 This project is about sending and processing data from sensors.
