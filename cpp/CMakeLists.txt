@@ -17,10 +17,16 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-file(GLOB SOURCES "src/*.cpp" "test/*.cpp")
+file(GLOB SOURCES "src/*.cpp")
+file(GLOB TESTING_SOURCES "src/sen*.cpp" "test/*.cpp")
 
-add_executable(test-Sender ${SOURCES})
+add_executable(Sender ${SOURCES})
+add_executable(test-Sender ${TESTING_SOURCES})
 target_link_libraries(test-Sender GTest::gtest_main)
+
+add_custom_command(TARGET Sender POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${PROJECT_SOURCE_DIR}/sensor_data.csv $<TARGET_FILE_DIR:Sender>)
 
 add_custom_command(TARGET test-Sender POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
