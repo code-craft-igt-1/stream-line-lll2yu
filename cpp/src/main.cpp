@@ -1,4 +1,4 @@
-#include "./sender.h"
+#include "../include/sender.h"
 
 int main() {
     StreamingDataSender::Sender sender;

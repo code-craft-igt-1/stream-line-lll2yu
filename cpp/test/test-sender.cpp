@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
-#include "./sender.h"
-
-
+#include <string>
+#include "../include/sender.h"
 /**
  * @brief Tests if Sender correctly reads and sends data from a CSV file.
  */

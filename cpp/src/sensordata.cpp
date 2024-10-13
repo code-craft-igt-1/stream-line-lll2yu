@@ -1,10 +1,10 @@
-#include "./sensordata.h"
 #include <sstream>
-
+#include <string>
+#include "../include/sensordata.h"
 namespace StreamingDataSender {
 
 SensorData::SensorData(float temperature, int pulseRate, int spo2)
-    : m_temperature(temperature), m_pulseRate(pulseRate), m_spo2(spo2) {}
+: m_temperature(temperature), m_pulseRate(pulseRate), m_spo2(spo2) {}
 
 float SensorData::getTemperature() const {
     return m_temperature;

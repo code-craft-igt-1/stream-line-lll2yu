@@ -1,6 +1,9 @@
+#include "../include/sender.h"
 #include <iostream>
 #include <fstream>
-#include "./sender.h"
+#include <vector>
+#include <string>
+
 
 namespace StreamingDataSender {
 

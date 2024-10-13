@@ -17,12 +17,15 @@ FetchContent_MakeAvailable(googletest)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SENDER_SOURCES "src/main.cpp" "src/sen*.cpp")
 file(GLOB TESTING_SOURCES "src/sen*.cpp" "test/*.cpp")
 
-add_executable(Sender ${SOURCES})
+add_executable(Sender ${SENDER_SOURCES})
 add_executable(test-Sender ${TESTING_SOURCES})
 target_link_libraries(test-Sender GTest::gtest_main)
+
+file(GLOB PROCESSOR_SOURCES "src/processor.cpp")
+add_executable(Processor ${PROCESSOR_SOURCES})
 
 add_custom_command(TARGET Sender POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
