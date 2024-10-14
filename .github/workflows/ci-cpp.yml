@@ -1,0 +1,67 @@
+name: CI Pipeline for C++
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**/*.h'
+      - '**/*.cpp'
+      - '**/CMakeLists.txt'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '**/*.h'
+      - '**/*.cpp'
+      - '**/CMakeLists.txt'
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cpp
+    steps:
+    - uses: actions/checkout@v4
+    - name: install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcovr
+        sudo npm install -g jscpd
+        pip install cpplint lizard
+
+    - name: No Duplication beyond 3 lines
+      run:  jscpd src/*.cpp test/*.cpp --gitignore --min-lines 3 --min-tokens 25 --threshold 0
+
+    - name: Check Cyclomatic Complexity
+      run: lizard --CCN 10 src/* test/*
+
+    - name: setup cmake
+      run: sudo apt install -y cmake
+
+    - name: Build
+      run: |
+        cmake -S . -B build
+        cmake --build build
+        
+    - name: run Sender Test
+      run: |
+        cd build
+        ./test-Sender
+
+    - name: Run Sender and Processor
+      run: |
+        cd build
+        ./Sender | ./Processor
+        
+    - name: collect coverage
+      run: gcovr --gcov-exclude=".*test.*" -r . --html --html-details -o coverage.html --print-summary
+
+    - name: create coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage
+        path: ./*.html
+        retention-days: 21
